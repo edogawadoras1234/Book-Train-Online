@@ -1,0 +1,15 @@
+<resources>
+    <string name="ten">Nhập tên</string>
+    <string name="sdt">Nhập SĐT</string>
+    <string name="app_name">Book vé online</string>
+    <string name="thanhvien">Thành viên</string>
+    <string name="loai">Loại vé</string>
+    <string name="vip">VIP</string>
+    <string name="thuong">Thường</string>
+    <string name="giuong">Giường nằm</string>
+    <string name="ghe">Ghế ngồi</string>
+    <string name="dichvu">Dịch vụ</string>
+    <string name="thanhtoan">Thanh toán</string>
+    <string name="cancle">Hủy</string>
+    <string name="book">Thanh toán</string>
+</resources>
