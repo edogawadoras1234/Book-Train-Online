@@ -41,7 +41,16 @@ public class MainActivity extends AppCompatActivity {
         danhsach.setAdapter(arradapter);
 
         Button btnhuy = (Button) findViewById(R.id.btncancel);
-        Button btntt =  (Button)findViewById(R.id.btnbook);
+
+        btnhuy.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                System.exit(0);
+            }
+        });
+    }
+
+    public void onClick(View v) {
+        Intent i = new Intent(this, Main2Activity.class);
         final EditText editten =  (EditText)findViewById(R.id.txtten);
         final EditText editsdt =  (EditText)findViewById(R.id.txtsdt);
         final CheckBox chk1 =  (CheckBox) findViewById(R.id.checkBox);
@@ -51,118 +60,103 @@ public class MainActivity extends AppCompatActivity {
         final RadioButton rbghe =  (RadioButton) findViewById(R.id.rbtnghe);
         final Spinner spintt =  (Spinner) findViewById(R.id.spinner);
 
+        String ten = editten.getText().toString();
+        String sdt = editsdt.getText().toString();
+        String dichvu = chk1.getText().toString();
+        i.putExtra("qten", ten);
+        i.putExtra("qsdt", sdt);
+        i.putExtra("qdichvu", dichvu);
 
-        btntt.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                int a = 1200000;
-                int b = 800000;
-                int phi= 60000;
-                String msg = "Tên: " + editten.getText().toString() +
-                        System.getProperty("line.separator") +
-                        "SĐT: " + editsdt.getText().toString()
-                        + System.getProperty("line.separator") +
-                        "Thành viên: ";
+        String thanhvien;
+        if(rbvip.isChecked()) {
+            thanhvien = rbvip.getText().toString()+"\nGiảm giá:30%";
+            i.putExtra("qthanhvien", thanhvien);
+        }
+        if(rbthuong.isChecked()) {
+            thanhvien = rbthuong.getText().toString();
+            i.putExtra("qthanhvien", thanhvien);
+        };
 
-                editten.setText("");
-                editsdt.setText("");
+        String loaive;
+        if(rbgiuong.isChecked()) {
+            loaive = rbgiuong.getText().toString();
+            i.putExtra("qloaive", loaive);
+        }
+        if(rbghe.isChecked()) {
+            loaive = rbghe.getText().toString();
+            i.putExtra("qloaive", loaive);
+        };
 
-                if(rbvip.isChecked()) {
-                    msg += rbvip.getText().toString() + System.getProperty("line.separator");
-                    msg += "Giảm giá: 30%" + System.getProperty("line.separator");
-                }
+        if(chk1.isChecked()) {
+            dichvu = "Có" + " \nPhí dịch vụ: 60000VNĐ";
+            i.putExtra("qdichvu", dichvu);
+        }
+        else
+            dichvu = "Không";
+            i.putExtra("qdichvu", dichvu);
 
-                if(rbthuong.isChecked())
-                    msg += rbthuong.getText().toString()+ System.getProperty("line.separator");
+        String thanhtoan = spintt.getSelectedItem().toString();
+        i.putExtra("qthanhtoan", thanhtoan);
 
-
-
-                if(rbgiuong.isChecked()) {
-                    msg += "Loại vé: " + rbgiuong.getText().toString() ;
-                    msg += System.getProperty("line.separator") + "Giá tiền: " + a + " VNĐ ";
-                }
-                if(rbghe.isChecked()) {
-                    msg += "Loại vé: " + rbghe.getText().toString();
-                    msg += System.getProperty("line.separator") + "Giá tiền: " + b + " VNĐ ";
-                }
-
-                if(chk1.isChecked()) {
-                    msg += System.getProperty("line.separator") + "Dịch vụ: " + "Có";
-                    msg += System.getProperty("line.separator") + "Phí dịch vụ: " + phi+"VNĐ";
-                }
+        String thanhtien;
+        int a = 1200000;
+        int b = 800000;
+        int phi= 60000;
+        if(rbgiuong.isChecked()) {
+            int thanhtien1= a-(a * 30 / 100)+60000;
+            int thanhtien2=a-(a*30/100);
+            int thanhtien3=a+phi;
+            if (spintt.getSelectedItem()=="VNĐ") {
+                if (rbvip.isChecked() && chk1.isChecked())
+                    thanhtien = thanhtien1 + "VNĐ";
+                else if (rbvip.isChecked())
+                    thanhtien =  thanhtien2 + "VNĐ";
+                else if (chk1.isChecked())
+                    thanhtien = thanhtien3 + "VNĐ";
                 else
-                    msg += System.getProperty("line.separator") + "Dịch vụ: "+"Không";
-
-
-                msg += System.getProperty("line.separator") + "Hình thức thanh toán: " +
-                        spintt.getSelectedItem().toString()+ System.getProperty("line.separator");
-
-
-                if(rbgiuong.isChecked()) {
-                    int thanhtien1= a-(a * 30 / 100)+60000;
-                    int thanhtien2=a-(a*30/100);
-                    int thanhtien3=a+phi;
-                    if (spintt.getSelectedItem()=="VNĐ") {
-                        if (rbvip.isChecked() && chk1.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien1 + "VNĐ";
-                        else if (rbvip.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien2 + "VNĐ";
-                        else if (chk1.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien3 + "VNĐ";
-                        else
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + a + "VNĐ";
-                    }
-                    else {
-                        if (rbvip.isChecked() && chk1.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien1/20000 + "USD";
-                        else if (rbvip.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien2/20000 + "USD";
-                        else if (chk1.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien3/20000 + "USD";
-                        else
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + a/20000 + "USD";
-                    }
-
-                }
-
-
-                if(rbghe.isChecked()) {
-                    int thanhtien4= b-(b*30/100)+60000;
-                    int thanhtien5=b-(b*30/100);
-                    int thanhtien6=b+phi;
-                    if(spintt.getSelectedItem()=="VNĐ") {
-                        if (rbvip.isChecked() && chk1.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien4 + "VNĐ";
-                        else if (rbvip.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien5 + "VNĐ";
-                        else if (chk1.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien6 + "VNĐ";
-                        else
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + b + "VNĐ";
-                    }
-                    else{
-                        if (rbvip.isChecked() && chk1.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien4/20000 + "USD";
-                        else if (rbvip.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien5/20000 + "USD";
-                        else if (chk1.isChecked())
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + thanhtien6/20000 + "USD";
-                        else
-                            msg += System.getProperty("line.separator") + "Thành tiền:" + b/20000 + "USD";
-                    }
-                }
-
-                msg += System.getProperty("line.separator") + "CẢM ƠN QUÝ KHÁCH !!!";
-
-                info(v,msg);
-
+                    thanhtien = a + "VNĐ";
             }
-        });
-        btnhuy.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                System.exit(0);
+            else {
+                if (rbvip.isChecked() && chk1.isChecked())
+                    thanhtien = thanhtien1/20000 + "USD";
+                else if (rbvip.isChecked())
+                    thanhtien = thanhtien2/20000 + "USD";
+                else if (chk1.isChecked())
+                    thanhtien = thanhtien3/20000 + "USD";
+                else
+                    thanhtien = + a/20000 + "USD";
             }
-        });
+            i.putExtra("qthanhtien", thanhtien);
 
-    }
+        }
+
+        if(rbghe.isChecked()) {
+            int thanhtien4= b-(b*30/100)+60000;
+            int thanhtien5=b-(b*30/100);
+            int thanhtien6=b+phi;
+            if(spintt.getSelectedItem()=="VNĐ") {
+                if (rbvip.isChecked() && chk1.isChecked())
+                    thanhtien = thanhtien4 + "VNĐ";
+                else if (rbvip.isChecked())
+                    thanhtien = thanhtien5 + "VNĐ";
+                else if (chk1.isChecked())
+                    thanhtien = thanhtien6 + "VNĐ";
+                else
+                    thanhtien = b + "VNĐ";
+            }
+            else{
+                if (rbvip.isChecked() && chk1.isChecked())
+                    thanhtien = thanhtien4/20000 + "USD";
+                else if (rbvip.isChecked())
+                    thanhtien = thanhtien5/20000 + "USD";
+                else if (chk1.isChecked())
+                    thanhtien = thanhtien6/20000 + "USD";
+                else
+                    thanhtien = b/20000 + "USD";
+            }
+            i.putExtra("qthanhtien", thanhtien);
+        }
+        startActivity(i);
+    };
 
 }

@@ -160,6 +160,7 @@
                 tools:layout_editor_absoluteY="499dp" />
 
             <Button
+                android:onClick="onClick"
                 android:id="@+id/btnbook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,4 +170,5 @@
                 tools:layout_editor_absoluteY="498dp" />
         </TableRow>
     </TableLayout>
+
 </android.support.constraint.ConstraintLayout>
